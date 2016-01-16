@@ -99,10 +99,10 @@
 	$.fn.pagination = function(maxentries, opts) {
 		opts = $.extend({
 			items_per_page: 10,
-			num_display_entries: 11,
+			num_display_entries: 3,
 			total:maxentries,
 			current_page: 0,
-			num_edge_entries: 0,
+			num_edge_entries: 1,
 			link_to: "javascript:;",
 			prev_text: "Prev",
 			next_text: "Next",
@@ -112,7 +112,7 @@
 			renderer: "defaultRenderer",
 			load_first_page: false,
 			callback: function() {
-				return false;
+				return true;
 			}
 		},
 		opts || {});
