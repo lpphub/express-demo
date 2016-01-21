@@ -1,19 +1,17 @@
 var App = function () {
 
   var config = {//Basic Config
-    tooltip: true,
-    popover: true,
+    tooltip: false,
+    popover: false,
     nanoScroller: true,
-    nestableLists: true,
+    nestableLists: false,
     hiddenElements: true,
-    bootstrapSwitch:true,
-    dateTime:true,
-    select2:true,
-    tags:true,
-    slider:true
+    bootstrapSwitch:false,
+    dateTime:false,
+    select2:false,
+    tags:false,
+    slider:false
   }; 
-  
-  var voice_methods = [];
   
   /*DASHBOARD*/
   var dashboard = function(){
@@ -1512,7 +1510,7 @@ var App = function () {
       });
       
       /*Datepicker UI*/
-      $( ".ui-datepicker" ).datepicker();
+      //$( ".ui-datepicker" ).datepicker();
       
       /*Tooltips*/
       if(config.tooltip){

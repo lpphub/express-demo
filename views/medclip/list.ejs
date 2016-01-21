@@ -3,18 +3,56 @@
 <head>
     <title>用户</title>
     <% include ../base.ejs %>
-    <link rel="stylesheet" href="js/plugins/pagination/pagination.css">
+    <link rel="stylesheet" href="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/js/plugins/pagination/pagination.css">
+    <link rel="stylesheet/less" href="/css/less/forms.less">
 </head>
 <body>
-<div class="col-md-12">
-    <div class="block-flat">
-        <div class="header">
-            <h3>Basic DataTable</h3>
+<div id="cl-wrapper-in">
+    <div class="page-aside app filters">
+        <div class="">
+            <div class="content">
+                <button class="navbar-toggle" data-target=".app-nav" data-toggle="collapse" type="button">
+                    <span class="fa fa-chevron-down"></span>
+                </button>
+                <h2 class="page-title">Query Filter</h2>
+                <p class="description">query condition</p>
+            </div>
+            <div class="app-nav collapse">
+                <div class="content">
+                    <div class="form-group">
+                        <label class="control-label">By userId:</label>
+                        <input id="query-user" class="bslider form-control parsley-validated" parsley-trigger="change"
+                               type="text" required
+                               placeholder="value required"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">By status:</label>
+                        <p>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="1" checked>
+                                正常
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="status" value="0">
+                                删除
+                            </label>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">By date:</label>
+                        <div class="input-group date datetime" data-min-view="2" data-date-format="yyyy-mm-dd">
+                            <input class="form-control" size="16" type="text" value="" readonly>
+                            <span class="input-group-addon btn btn-primary"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="query">Query</button>
+                    <button class="btn btn-default">Reset</button>
+                </div>
+            </div>
         </div>
-        <div class="col-md-12">
-            <div class="pull-right" style="padding-top: 5px;"><label><input type="text" class="form-control"
-                                                                            placeholder="Search"></label></div>
-        </div>
+    </div>
+    <div class="block-flat-right" style="min-height: 600px;">
         <div class="content">
             <div class="table-responsive">
                 <table class="table table-bordered" id="datatable">
@@ -25,47 +63,73 @@
                         <th>Status</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <% for(var i = 0; i < rows.length; i++) { %>
-                    <tr>
-                        <td><%= rows[i].uid %></td>
-                        <td><%= rows[i].patientName %></td>
-                        <td class="center"><%= rows[i].status %></td>
-                    </tr>
-                    <% } %>
+                    <tbody id="data-content">
                     </tbody>
                 </table>
             </div>
             <div class="row">
                 <div class="col-xs-6">
                     <div class="total">
-                        total <%= total %> entries
+                        total <span id="total-display">0</span> entries
                     </div>
                 </div>
                 <div class="col-xs-6">
                     <div id="pagination" class="pagination"></div>
                 </div>
             </div>
-            <input type="hidden" id="total" name="total" value="<%= total %>"/>
-            <input type="hidden" id="userId" value="<%= userId %>"/>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="js/plugins/pagination/jquery.pagination.js"></script>
+<script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/js/plugins/pagination/jquery.pagination.js"></script>
 <script type="text/javascript">
     $(function () {
-        var Request = GetRequest();
-        var page = typeof Request['page'] == 'undefined' ? 0 : Request['page']; // 当前页数
-        var count = parseInt($("#total").val());
-        var params = '&userId=' + $("#userId").val();
+        //datetimepicker init
+        $(".datetime").datetimepicker({autoclose: true, language: 'CN'});
+
+        $("#query").click(function () {
+            var user = $("#query-user");
+            if (user.val()) {
+                queryData(0);
+            } else {
+                user.addClass("parsley-error")
+            }
+        });
+    });
+
+    function queryData(page) {
+        var params = "userId=" + $("#query-user").val() + "&status=" + $('input:radio[name=status]:checked').val() + "&page=" + page;
+        $.get("/medclip/json?" + params, function (data, status) {
+            var total = data.total;
+            $("#total-display").text(total);
+            initTable(data.rows, total, page);
+        });
+    }
+
+    function page_callback(page_id) {
+        queryData(page_id);
+    }
+
+    function initTable(data, total, page) {
+        var body = "";
+        $.each(data, function (i, v) {
+            body += "<tr><td>" + v.uid + "</td><td>" + v.patientName + "</td><td>" + v.status + "</td></tr>"
+        });
+        $("#data-content").html(body);
+        initPagination(total, page);
+        //init height
+        $(window.parent.document).find("#iframe").height($(document).height());
+    }
+
+    function initPagination(count, page) {
         $('#pagination').pagination(
                 count,
                 {
                     current_page: page,
                     items_per_page: 20,
-                    link_to: 'medclips?page=__id__' + params
+                    callback: page_callback
                 });
-    });
+    }
 </script>
 </body>
 </html>

@@ -639,7 +639,7 @@ body.modal-open,
   font-size: 13px;
   font-weight: 200;
   line-height: 21px;
-  padding: 5px 30px 30px 28px;
+  padding: 5px 30px 30px 30px;
   margin-top: 0;
 }
 .cl-mcont.white {
@@ -949,6 +949,13 @@ body {
   position: absolute;
   height: 100%;
 }
+#cl-wrapper-in {
+  display: table;
+  width: 95%;
+  position: absolute;
+  height: 100%;
+  margin-left: 20px;
+}
 .cl-sidebar {
   display: table-cell;
   position: relative;
@@ -985,6 +992,15 @@ body {
   border-bottom: 1px solid #e2e2e2;
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04);
 }
+
+.block-flat-right {
+  padding: 25px 25px 20px 20px;
+  background: #FFF;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04);
+}
+
 .block-transparent {
   margin-bottom: 40px;
 }
