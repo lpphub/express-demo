@@ -2003,6 +2003,7 @@ table.information > tbody > tr > td {
 }
 /*ELEMENTS*/
 table thead th {
+  text-align: center;
   padding: 5px;
   font-size: 13px;
   font-weight: 200;
@@ -2066,6 +2067,9 @@ table .right {
 }
 table .left {
   text-align: left;
+}
+table .center{
+  text-align: center;
 }
 .red thead th {
   color: #d36442;

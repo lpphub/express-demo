@@ -24,7 +24,7 @@
                         <label class="control-label">By userId:</label>
                         <input id="query-user" class="bslider form-control parsley-validated" parsley-trigger="change"
                                type="text" required
-                               placeholder="value required"/>
+                               placeholder="Enter userId"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">By status:</label>
@@ -61,6 +61,7 @@
                         <th>Uid</th>
                         <th>PatientName</th>
                         <th>Status</th>
+                        <th>IsShare</th>
                     </tr>
                     </thead>
                     <tbody id="data-content">
@@ -102,7 +103,7 @@
         $.get("/medclip/json?" + params, function (data, status) {
             var total = data.total;
             $("#total-display").text(total);
-            initTable(data.rows, total, page);
+            refreshTable(data.rows, total, page);
         });
     }
 
@@ -110,18 +111,18 @@
         queryData(page_id);
     }
 
-    function initTable(data, total, page) {
+    function refreshTable(data, total, page) {
         var body = "";
         $.each(data, function (i, v) {
-            body += "<tr><td>" + v.uid + "</td><td>" + v.patientName + "</td><td>" + v.status + "</td></tr>"
+            body += "<tr><td>" + v.uid + "</td><td>" + v.patientName + "</td><td>" + v.status + "</td><td>" + v.isShare + "</td></tr>"
         });
         $("#data-content").html(body);
-        initPagination(total, page);
+        refreshPagination(total, page);
         //init height
         $(window.parent.document).find("#iframe").height($(document).height());
     }
 
-    function initPagination(count, page) {
+    function refreshPagination(count, page) {
         $('#pagination').pagination(
                 count,
                 {
