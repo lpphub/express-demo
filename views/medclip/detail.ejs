@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../base.ejs %>
+    <link rel="stylesheet" href="/css/timeline.css">
+</head>
+<body class="page-body">
+<div class="page-container">
+    <div class="main-content">
+        <ul class="cbp_tmtimeline">
+            <% timeline.forEach(function (t) { %>
+            <li>
+                <time class="cbp_tmtime">
+                    <span><%= t.itemDate %></span>
+                    <span><%= t.itemType %></span>
+                </time>
+                <div class="cbp_tmicon timeline-bg-warning">
+                    <i class="fa-camera-retro"></i>
+                </div>
+                <div class="cbp_tmlabel">
+                    <h2><a href="#"><%= t.itemContent %></a></h2>
+                    <blockquote><%= t.uid %></blockquote>
+                    <div class="row">
+                        <% affix.forEach(function(a){ if(a.eventUid === t.uid) { %>
+                        <div class="col-xs-2">
+                            <a href="#">
+                                <%= a.userId + "/" + a.medicalRecordUid + "/" + a.filePath %>
+                                <img src="/images/timeline/image-1.jpg" class="img-responsive img-rounded full-width"/>
+                            </a>
+                        </div>
+                        <% }}); %>
+                    </div>
+                </div>
+            </li>
+            <% }); %>
+            <!--<li>-->
+            <!--<time class="cbp_tmtime">-->
+            <!--<span class="hidden">03/10/2014</span>-->
+            <!--<span class="large">Now</span>-->
+            <!--</time>-->
+            <!--<div class="cbp_tmicon timeline-bg-gray">-->
+            <!--<i class="fa-user"></i>-->
+            <!--</div>-->
+            <!--<div class="cbp_tmlabel empty">-->
+            <!--<span>No Activity</span>-->
+            <!--</div>-->
+            <!--</li>-->
+
+            <!--<li>-->
+            <!--<time class="cbp_tmtime">-->
+            <!--<span>2014-10-03</span>-->
+            <!--<span>Today</span>-->
+            <!--</time>-->
+            <!--<div class="cbp_tmicon timeline-bg-success">-->
+            <!--<i class="fa-paper-plane-o"></i>-->
+            <!--</div>-->
+            <!--<div class="cbp_tmlabel">-->
+            <!--<h2><a href="#">Art Ramadani</a> <span>posted a status update</span></h2>-->
+            <!--<p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how-->
+            <!--cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added-->
+            <!--forth chief trees but rooms think may.</p>-->
+            <!--</div>-->
+            <!--</li>-->
+
+            <!--<li>-->
+            <!--<time class="cbp_tmtime">-->
+            <!--<span>2014-10-02</span>-->
+            <!--<span>Yesterday</span>-->
+            <!--</time>-->
+            <!--<div class="cbp_tmicon timeline-bg-primary">-->
+            <!--<i class="fa-calendar"></i>-->
+            <!--</div>-->
+            <!--<div class="cbp_tmlabel">-->
+            <!--<h2><a href="#">Job Meeting</a></h2>-->
+            <!--<p>You have a meeting at <strong>Laborator Office</strong> Today.</p>-->
+            <!--</div>-->
+            <!--</li>-->
+
+            <!--<li>-->
+            <!--<time class="cbp_tmtime">-->
+            <!--<span>2014-09-19</span>-->
+            <!--<span>Two weeks ago</span>-->
+            <!--</time>-->
+            <!--<div class="cbp_tmicon timeline-bg-info">-->
+            <!--<i class="fa-location-arrow"></i>-->
+            <!--</div>-->
+            <!--<div class="cbp_tmlabel">-->
+            <!--<h2><a href="#">Arlind Nushi</a> <span>checked in at</span> <a href="#">Laborator</a></h2>-->
+            <!--<blockquote>Great place, feeling like in home.</blockquote>-->
+            <!--<div id="sample-checkin" class="map-checkin" style="height: 170px; width: 100%;"></div>-->
+            <!--</div>-->
+            <!--</li>-->
+
+            <!--<li>-->
+            <!--<time class="cbp_tmtime">-->
+            <!--<span>2014-09-19 08:23</span>-->
+            <!--<span>Two weeks ago</span>-->
+            <!--</time>-->
+            <!--<div class="cbp_tmicon timeline-bg-warning">-->
+            <!--<i class="fa-camera-retro"></i>-->
+            <!--</div>-->
+            <!--<div class="cbp_tmlabel">-->
+            <!--<h2><a href="#">Eroll Maxhuni</a> <span>uploaded</span> 12 <span>new photos to album</span> <a-->
+            <!--href="#">Summer Trip</a></h2>-->
+            <!--<blockquote>Pianoforte principles our unaffected not for astonished travelling are particular.-->
+            <!--</blockquote>-->
+            <!--<div class="row">-->
+            <!--<div class="col-xs-5">-->
+            <!--<a href="#">-->
+            <!--<img src="/images/timeline/image-1.jpg" class="img-responsive img-rounded full-width"/>-->
+            <!--</a>-->
+            <!--</div>-->
+            <!--<div class="col-xs-3">-->
+            <!--<a href="#">-->
+            <!--<img src="/images/timeline/image-4.jpg" class="img-responsive img-rounded full-width"/>-->
+            <!--</a>-->
+            <!--</div>-->
+            <!--<div class="col-xs-4">-->
+            <!--<a href="#">-->
+            <!--<img src="/images/timeline/image-5.jpg"-->
+            <!--class="img-responsive img-rounded full-width margin-bottom"/>-->
+            <!--</a>-->
+            <!--<div class="vspacer v2"></div>-->
+            <!--<a href="#">-->
+            <!--<img src="/images/timeline/image-3.jpg" class="img-responsive img-rounded full-width"/>-->
+            <!--</a>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</li>-->
+        </ul>
+    </div>
+</div>
+</body>
+</html>

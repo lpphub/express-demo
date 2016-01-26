@@ -1,6 +1,9 @@
 'use strict';
 var express = require('express');
-var mm = require('../module/medclip');
+var async = require('async');
+var medclip = require('../module/medclip');
+var timeline = require('../module/timeline');
+var affix = require('../module/affix');
 var Pager = require('../utils/pager');
 var router = express.Router();
 
@@ -13,12 +16,12 @@ router.get('/json', function (req, res, next) {
         throw new Error("params error");
     }
     let p = new Pager(parseInt(req.query.page));
-    let c = mm.buildQuery(req.query.userId, req.query.status);
-    mm.count(c, function (err, rows) {
+    let c = medclip.buildQuery(req.query.userId, req.query.status);
+    medclip.count(c, function (err, rows) {
         if (err) throw err;
         let count = rows[0].count;
         if (count > 0) {
-            mm.queryPage(c, p, function (err, rows) {
+            medclip.queryPage(c, p, function (err, rows) {
                 if (err) throw err;
                 res.json({rows: rows, total: count});
             });
@@ -28,24 +31,26 @@ router.get('/json', function (req, res, next) {
     });
 });
 
-router.get('/tables', function (req, res, next) {
-    let p = new Pager(parseInt(req.query.page));
-    let userId = req.query.userId;
-    if (!userId) {
+router.get('/detail', function (req, res, next) {
+    let uid = req.query.uid;
+    if (!uid) {
         throw new Error("params error");
     }
-    let c = mm.buildQuery(userId);
-    mm.count(c, function (err, rows) {
-        if (err) throw err;
-        let count = rows[0].count;
-        if (count > 0) {
-            mm.queryPage(c, p, function (err, rows) {
-                if (err) throw err;
-                res.render('medclip/list_tmp', {rows: rows, total: count, userId: userId});
+    async.parallel([
+        function (callback) {
+            timeline.queryByMedclip(uid, function (err, rows) {
+                callback(err, rows);
             });
-        } else {
-            res.render('medclip/list_tmp', {rows: [], total: 0, userId: userId});
+        },
+        function (callback) {
+            affix.queryByMedclip(uid, function (err, rows) {
+                callback(err, rows);
+            });
         }
+    ], function (err, results) {
+        if (err) throw err;
+        //console.log("result:" + JSON.stringify(results));
+        res.render('medclip/detail', {timeline: results[0], affix: results[1]});
     });
 });
 

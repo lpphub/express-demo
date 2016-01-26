@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户</title>
+    <% include ../base.ejs %>
+    <link rel="stylesheet" href="/js/plugins/pagination/pagination.css">
+</head>
+<body>
+<div class="container-fluid">
+    <!--<div class="page-head">-->
+    <!--<h2>Data Tables</h2>-->
+    <!--<ol class="breadcrumb">-->
+    <!--<li><a href="#">Home</a></li>-->
+    <!--<li><a href="#">Tables</a></li>-->
+    <!--<li class="active">DataTables</li>-->
+    <!--</ol>-->
+    <!--</div>-->
+    <div class="cl-mcont">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>Affixs DataTable</h3>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="pull-right" style="padding-top: 5px;">
+                            <label>
+                                <input type="text" id="uid" class="form-control" placeholder="MedicalRecordUid">
+                            </label>
+                            <label>
+                                <button class="btn btn-primary" id="query">Search</button>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="datatable">
+                                <thead>
+                                <tr>
+                                    <th>Uid</th>
+                                    <th>FileType</th>
+                                    <th>FilePath</th>
+                                    <th>timeline</th>
+                                </tr>
+                                </thead>
+                                <tbody id="data-content">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="total">
+                                    total <span id="total-display">0</span> entries
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div id="pagination" class="pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="table-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>{{auid}}</td>
+        <td>{{FileType}}</td>
+        <td>{{FilePath}}</td>
+        <td>{{tuid}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script type="text/javascript" src="/js/plugins/pagination/jquery.pagination.js"></script>
+<script type="text/javascript" src="/js/table-component.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#query").click(function () {
+            if ($("#uid").val()) {
+                queryData(0);
+            } else {
+                $("#uid").addClass("parsley-error")
+            }
+        });
+    });
+    function queryData(page) {
+        var params = "uid=" + $("#uid").val() + "&page=" + page;
+        $.get("/affix/json?" + params, function (data, status) {
+            var total = data.total;
+            $("#total-display").text(total);
+            refreshTable(data.rows, total, page);
+        });
+    }
+</script>
+</body>
+</html>

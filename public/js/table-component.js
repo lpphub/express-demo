@@ -1,3 +1,26 @@
+function page_callback(page_id) {
+    queryData(page_id);
+}
+
+function refreshTable(data, total, page) {
+    var tableTemplate = Handlebars.compile($("#table-template").html());
+    $('#data-content').html(tableTemplate(data));
+    refreshPagination(total, page);
+    //init height
+    $(window.parent.document).find("#iframe").height($(document).height());
+}
+
+function refreshPagination(count, page) {
+    $('#pagination').pagination(
+        count,
+        {
+            current_page: page,
+            items_per_page: 20,
+            callback: page_callback
+        });
+}
+
+
 /**
  * 获取url参数
  * @param {Object} name

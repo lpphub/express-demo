@@ -5,7 +5,6 @@
     <% include ../base.ejs %>
     <link rel="stylesheet" href="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="/js/plugins/pagination/pagination.css">
-    <link rel="stylesheet/less" href="/css/less/forms.less">
 </head>
 <body>
 <div id="cl-wrapper-in">
@@ -83,17 +82,27 @@
 </div>
 <script type="text/javascript" src="/js/plugins/datetimepicker/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="/js/plugins/pagination/jquery.pagination.js"></script>
+<script type="text/javascript" src="/js/table-component.js"></script>
+<script id="table-template" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td><a href="/medclip/detail?uid={{uid}}">{{uid}}</a></td>
+        <td>{{patientName}}</td>
+        <td>{{status}}</td>
+        <td>{{isShare}}</td>
+    </tr>
+    {{/each}}
+</script>
 <script type="text/javascript">
     $(function () {
         //datetimepicker init
         $(".datetime").datetimepicker({autoclose: true, language: 'CN'});
 
         $("#query").click(function () {
-            var user = $("#query-user");
-            if (user.val()) {
+            if ($("#query-user").val()) {
                 queryData(0);
             } else {
-                user.addClass("parsley-error")
+                $("#query-user").addClass("parsley-error")
             }
         });
     });
@@ -107,30 +116,6 @@
         });
     }
 
-    function page_callback(page_id) {
-        queryData(page_id);
-    }
-
-    function refreshTable(data, total, page) {
-        var body = "";
-        $.each(data, function (i, v) {
-            body += "<tr><td>" + v.uid + "</td><td>" + v.patientName + "</td><td>" + v.status + "</td><td>" + v.isShare + "</td></tr>"
-        });
-        $("#data-content").html(body);
-        refreshPagination(total, page);
-        //init height
-        $(window.parent.document).find("#iframe").height($(document).height());
-    }
-
-    function refreshPagination(count, page) {
-        $('#pagination').pagination(
-                count,
-                {
-                    current_page: page,
-                    items_per_page: 20,
-                    callback: page_callback
-                });
-    }
 </script>
 </body>
 </html>
