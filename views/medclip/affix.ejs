@@ -86,13 +86,16 @@
         });
     });
     function queryData(page) {
+        parent.progress.start().autoIncrease(2, 100);
         var params = "uid=" + $("#uid").val() + "&page=" + page;
         $.get("/affix/json?" + params, function (data, status) {
             var total = data.total;
             $("#total-display").text(total);
             refreshTable(data.rows, total, page);
+            parent.progress.end();
         });
     }
+
 </script>
 </body>
 </html>

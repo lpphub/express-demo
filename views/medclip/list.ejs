@@ -5,6 +5,7 @@
     <% include ../base.ejs %>
     <link rel="stylesheet" href="/js/plugins/datetimepicker/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="/js/plugins/pagination/pagination.css">
+
 </head>
 <body>
 <div id="cl-wrapper-in">
@@ -86,7 +87,7 @@
 <script id="table-template" type="text/x-handlebars-template">
     {{#each this}}
     <tr>
-        <td><a href="/medclip/detail?uid={{uid}}">{{uid}}</a></td>
+        <td><a href="/medclip/detail?uid={{uid}}" onclick="loadProgress()">{{uid}}</a></td>
         <td>{{patientName}}</td>
         <td>{{status}}</td>
         <td>{{isShare}}</td>
@@ -116,6 +117,9 @@
         });
     }
 
+    function loadProgress() {
+        parent.progress.start().autoIncrease(4, 100);
+    }
 </script>
 </body>
 </html>

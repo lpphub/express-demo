@@ -10,6 +10,7 @@
     <% include base.ejs %>
     <link rel="stylesheet" type="text/css" href="/js/plugins/nanoscroller/nanoscroller.css"/>
     <link rel="stylesheet" href="/fonts/font-awesome-4/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/js/plugins/progress/progress.min.css">
 </head>
 <body>
 
@@ -73,7 +74,10 @@
 
 <script type="text/javascript" src="/js/plugins/nanoscroller/jquery.nanoscroller.js"></script>
 <script type="text/javascript" src="/js/behaviour/general.js"></script>
+<script type="text/javascript" src="/js/plugins/progress/progress.min.js"></script>
 <script type="text/javascript">
+    var progress = progressJs().setOptions({'overlayMode': true});
+
     $(document).ready(function () {
         $("#iframe").load(function () {
             $(this).height(0); //用于每次刷新时控制IFRAME高度初始化
