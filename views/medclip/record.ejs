@@ -87,7 +87,7 @@
 <script id="table-template" type="text/x-handlebars-template">
     {{#each this}}
     <tr>
-        <td><a href="/medclip/detail?uid={{uid}}" onclick="loadProgress()">{{uid}}</a></td>
+        <td><a href="/record/detail?uid={{uid}}" onclick="loadProgress()">{{uid}}</a></td>
         <td>{{patientName}}</td>
         <td>{{status}}</td>
         <td>{{isShare}}</td>
@@ -110,7 +110,7 @@
 
     function queryData(page) {
         var params = "userId=" + $("#query-user").val() + "&status=" + $('input:radio[name=status]:checked').val() + "&page=" + page;
-        $.get("/medclip/json?" + params, function (data, status) {
+        $.get("/record/json?" + params, function (data, status) {
             var total = data.total;
             $("#total-display").text(total);
             refreshTable(data.rows, total, page);

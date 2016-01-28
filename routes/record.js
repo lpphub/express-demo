@@ -1,14 +1,14 @@
 'use strict';
 var express = require('express');
 var async = require('async');
-var medclip = require('../module/medclip');
+var Pager = require('../utils/pager');
+var record = require('../module/record');
 var timeline = require('../module/timeline');
 var affix = require('../module/affix');
-var Pager = require('../utils/pager');
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
-    res.render('medclip/list');
+    res.render('medclip/record');
 });
 
 router.get('/json', function (req, res, next) {
@@ -16,12 +16,12 @@ router.get('/json', function (req, res, next) {
         throw new Error("params error");
     }
     let p = new Pager(parseInt(req.query.page));
-    let c = medclip.buildQuery(req.query.userId, req.query.status);
-    medclip.count(c, function (err, rows) {
+    let c = record.buildQuery(req.query.userId, req.query.status);
+    record.count(c, function (err, rows) {
         if (err) throw err;
         let count = rows[0].count;
         if (count > 0) {
-            medclip.queryPage(c, p, function (err, rows) {
+            record.queryPage(c, p, function (err, rows) {
                 if (err) throw err;
                 res.json({rows: rows, total: count});
             });
