@@ -1,0 +1,8 @@
+{
+  "apps": [
+    {
+      "name": "express-demo",
+      "script": "bin/www"
+    }
+  ]
+}
